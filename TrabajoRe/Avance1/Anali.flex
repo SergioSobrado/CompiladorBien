@@ -34,11 +34,11 @@ ParentDer=")"
 CorchIzq="["
 CorchDer="]"
 Caso = "case"
-Mientras="While"
+Mientras="While"|"until"
 FinFuncion="die"|"exit"|"END"
 AccionesFuncion="co_await"|"co_return"|"co_yield"|"decltype"|"inline"
 Coma=","
-GradodeAcceso = "public"|"private"|"protected"
+GradodeAcceso = "public"|"private"|"protected"|"native"|"lock"|"open"|"weak"|"dynamic"|"pub"|"fileprivate"|"implicit"
 CambiosClases="abstract"|"explicit"|"extends"|"super"|"friend"
 AccionesCiclo="next"|"redo"
 AccionesMetodos="alias"|"export"
@@ -49,55 +49,64 @@ FinalSeleccion="endswitch"
 
 /*Fin*/
 Metodos="Method"
-TipodeDato="void"|"global"|"complex"|"wchar_t"|"int"|"float"|"final"|"var"|"let"|"const"|"double"|"char"|"bool"|"auto"|"char8_t"|"char16_t"|"char32_t"|"enum"|"long"|"short"|"signed"|"unsigned" 
+TipodeDato="void"|"global"|"complex"|"wchar_t"|"int"|"float"|"final"|"var"|"let"|"const"|"double"|"char"|"bool"|"auto"|"char8_t"|"char16_t"|"char32_t"|"enum"|"long"|"short"|"signed"|"unsigned"|"arraybi"|"json"|"data"|"String"|"Boolean"|"Symbol"|"Hash"|"File"|"Time"|"Date"|"DateTime"|"Rational"|"BigDecimal"|"byte"|"sbyte"
 Clases="class"
-Referencias="this"|"requires"
+Referencias="this"|"requires"|"self"
 Funcion="def"|"function"|"declare"
-Condicion="if"|"endif"|"endwhile"|"elseif"
+Condicion="if"|"endif"|"endwhile"|"elseif"|"then"
 Negaciondecondicion="else"
 Ciclo="for"|"do"|"continue"|"endfor"|"foreach"|"in" 
 //
 Alineamiento="alignas"|"alignof"
-OperadorMatema="add"|"adc"|"dec"|"div"|"mul"|"sub"
+OperadorMatema="add"|"adc"|"dec"|"div"|"mul"|"sub"|"+"|"-"|"*"|"/"|"**"|"%"
+Agrupacion="Range"|"Group"|"readonly"|"list"|"Enumerator"
+Eliminacion="undef"
+Convertidor="to_i"|"to_s"|"to_json"|"to_f"|"to_r"|"to_h"|"to_a"|"to_sym"|"to_proc"|"to_yaml"|"to_c"|"!!"
+Sincronizacion="async"|"await"|"synchronized"|
+Valor="default"|"true"|"false"|"nil"|"null"|"nullptr"|"checked"
+Sobrescribir="override"
+Restriccion="strict"|"strictfp"
+RetornaBoolean="empty?"|"blank?"|"persisted?"
+ConversorDeObjeto="reified"
+Herencia="sealed"
+Debugger="Debugger"
 OperadorLogico="and"|"bitand"|"bitor"|"compl"|"not"|"or"|"xor"|"not"
-OperadorAsignacion="and_eq"|"or_eq"|"xor_eq" 
+OperadorAsignacion="and_eq"|"or_eq"|"xor_eq"|"stackalloc"
 Ensamblador="asm"|"lea"|"mov"|"shl"|"shr"
 Concepto="concept"|"register"|"insteadof"|"trait"|"extern"
 Evaluador="defined"|"isset"|"constveal"|"constexpr"|"constinit"|"static_assert"|"typedef"|"typeid"|"typename"|"instaceof"|"empty"|"eval"
 Cambiardato="const_cast"|"reinterpret_cast"|"mutable"|"union"|"volatile"|"dynamic_cast"|"as" 
-Verdadero="true" 
-Falso="false"
+
 Saltar="goto"|"jump"|"jmp"|"jnz"
-Objetos="namespace"|"new"|"clone"|"use"
+Objetos="namespace"|"new"|"clone"|"use"|"Regexp"|"get"|"set"
 Excepciones="nullpointerexception"|"arrayindexoutofboundsexception"|"arithmeticexception"|"ioexception"|"filenotfoundexception"|"classcastexception"|"illegalstateexception"|"illegalargumentexception"|"securityexception"|"outofmemoryerror"|"stackoverflowerror"|"concurrentmodificationexception"|"socketexception"|"unsupportedoperationexception"|"parseexception"|"numberformatexception"|"nosuchmethodexception"|"nosuchfieldexception"|"interruptedexception"|"assertionerror"|"classnotfoundexception"|"instantiationexception"|"illegalaccessexception"|"noexcept"|"rescue"
-Nulo="null"|"nullptr"
-Estructura="struct"|"array"|"list"
+Estructura="struct"|"array"
 Plantilla="template"
-Hilo="thread_local"|"thread" 
-Importar="using"|"include"|"require"|"require_once"
+Hilo="thread_local"|"thread"|"Fiber"|"Queue"
+Importar="using"|"include"|"require"|"require_once"|"include_once"|"import"
 Interfaz="implements"|"interface" 
 PilaEntrada="push" 
-Imprimir="echo"|"print"
+Imprimir="echo"|"print"|"puts"
 EjecutaCodigo="finally"
 Modulo="module"
 //
 Salirciclo="break"
 Devolvervalorfuncion="return"|"ret"
 Seleccion="switch"
-Subclase="virtual"|"operator"
+Subclase="virtual"|"operator"|"FalseClass"|"TrueClass"|"noinline"|"crossinline"|"IO"
 Eliminarinstancia="delete"|"explicit"
 Intentar="try"|"retry"
-Atraparerror="catch"
-Lanzarerror="throw"
+Atraparerror="catch"|"unless"
+Lanzarerror="throw"|"raise"
 Finalcodigo=";"
 Separacion="."
-IncioEstructura="{"|"BEGIN"|"begin"
+IncioEstructura="{"|"BEGIN"|"begin"|"ensure"|"Proc"|"crate"
 FinalEstructura="}"|"enddeclare"|"end"
-Asignacion="="
-Comparador="<"|">"|"=="|"cmp"|">="|"<="
+Asignacion="="|"move"
+Comparador="<"|">"|"=="|"cmp"|">="|"<="|"match"
 Variables = [a-z,A-Z]{1}[a-zA-Z0-9\\-]*
 Numero = [0-9]+
-Comentar= "//"
+Comentar= "//"|"/* */"
 EscrituraIni = "'"
 EscrituraFin = "'"
 SaltoDeLinea = \n|\r|\r\n
@@ -144,7 +153,7 @@ Espacio = " "
 }
 
 {Mientras} {
- Token t = new Token("", "Mientras");
+ Token t = new Token(yytext(), "Mientras");
  this.TokenExist = true;
  return t;
 }
@@ -176,6 +185,78 @@ Espacio = " "
 
 {GradodeAcceso} {
  Token t = new Token(yytext(), "GradodeAcceso");
+ this.TokenExist = true;
+ return t;
+}
+
+{Agrupacion} {
+ Token t = new Token(yytext(), "Agrupacion");
+ this.TokenExist = true;
+ return t;
+}
+
+{Eliminacion} {
+ Token t = new Token("", "Eliminacion");
+ this.TokenExist = true;
+ return t;
+}
+
+{Convertidor} {
+ Token t = new Token(yytext(), "Convertidor");
+ this.TokenExist = true;
+ return t;
+}
+
+{Sincronizacion} {
+ Token t = new Token(yytext(), "Sincronizacion");
+ this.TokenExist = true;
+ return t;
+}
+
+{Valor} {
+ Token t = new Token(yytext(), "Valor");
+ this.TokenExist = true;
+ return t;
+}
+
+{Sobrescribir} {
+ Token t = new Token("", "Sobrescribir");
+ this.TokenExist = true;
+ return t;
+}
+
+{Restriccion} {
+ Token t = new Token(yytext(), "Restriccion");
+ this.TokenExist = true;
+ return t;
+}
+
+{RetornaBoolean} {
+ Token t = new Token(yytext(), "RetornaBoolean");
+ this.TokenExist = true;
+ return t;
+}
+
+{ConversorDeObjeto} {
+ Token t = new Token("", "ConversorDeObjeto");
+ this.TokenExist = true;
+ return t;
+}
+
+{Herencia} {
+ Token t = new Token("", "Herencia");
+ this.TokenExist = true;
+ return t;
+}
+
+{Debugger} {
+ Token t = new Token("", "Debugger");
+ this.TokenExist = true;
+ return t;
+}
+
+{Comentar} {
+ Token t = new Token(yytext(), "Comentar");
  this.TokenExist = true;
  return t;
 }
@@ -318,18 +399,6 @@ Espacio = " "
  return t;
 }
 
-{Verdadero} {
- Token t = new Token("", "Verdadero");
- this.TokenExist = true;
- return t;
-}
-
-{Falso} {
- Token t = new Token("", "Falso");
- this.TokenExist = true;
- return t;
-}
-
 {Saltar} {
  Token t = new Token(yytext(), "Saltar");
  this.TokenExist = true;
@@ -348,8 +417,8 @@ Espacio = " "
  return t;
 }
 
-{Nulo} {
- Token t = new Token(yytext(), "Nulo");
+{Valor} {
+ Token t = new Token(yytext(), "Valor");
  this.TokenExist = true;
  return t;
 }
@@ -492,7 +561,7 @@ Espacio = " "
 }
 
 {Asignacion} {
- Token t = new Token("", "Asignacion");
+ Token t = new Token(yytext(), "Asignacion");
  this.TokenExist = true;
  return t;
 }
