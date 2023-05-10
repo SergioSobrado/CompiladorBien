@@ -44,27 +44,28 @@ AccionesCiclo="next"|"redo"
 AccionesMetodos="alias"|"export"
 ModificarHilo="atomic_cancel"|"atomic_commit"|"atomic_noexcept"
 PilaSalida="pop"
+PilaEntrada="push"
 FinalSeleccion="endswitch"
 
 /*Fin*/
 Metodos="Method"
-TipodeDato="void"|"global"|"complex"|"wchar_t"|"int"|"float"|"final"|"var"|"let"|"const"|"double"|"char"|"bool"|"auto"|"char8_t"|"char16_t"|"char32_t"|"enum"|"long"|"short"|"signed"|"unsigned"
+TipodeDato="void"|"global"|"complex"|"wchar_t"|"int"|"float"|"final"|"var"|"let"|"const"|"double"|"char"|"bool"|"auto"|"char8_t"|"char16_t"|"char32_t"|"enum"|"long"|"short"|"signed"|"unsigned" 
 Clases="class"
 Referencias="this"|"requires"
 Funcion="def"|"function"|"declare"
 Condicion="if"|"endif"|"endwhile"|"elseif"
 Negaciondecondicion="else"
-Ciclo="for"|"do"|"continue"|"endfor"|"foreach"|"in"
+Ciclo="for"|"do"|"continue"|"endfor"|"foreach"|"in" 
 //
 Alineamiento="alignas"|"alignof"
 OperadorMatema="add"|"adc"|"dec"|"div"|"mul"|"sub"
 OperadorLogico="and"|"bitand"|"bitor"|"compl"|"not"|"or"|"xor"|"not"
-OperadorAsignacion="and_eq"|"or_eq"|"xor_eq"
+OperadorAsignacion="and_eq"|"or_eq"|"xor_eq" 
 Ensamblador="asm"|"lea"|"mov"|"shl"|"shr"
 Concepto="concept"|"register"|"insteadof"|"trait"|"extern"
 Evaluador="defined"|"isset"|"constveal"|"constexpr"|"constinit"|"static_assert"|"typedef"|"typeid"|"typename"|"instaceof"|"empty"|"eval"
-Cambiardato="const_cast"|"reinterpret_cast"|"mutable"|"union"|"volatile"|"dynamic_cast"|"as"
-Verdadero="true"
+Cambiardato="const_cast"|"reinterpret_cast"|"mutable"|"union"|"volatile"|"dynamic_cast"|"as" 
+Verdadero="true" 
 Falso="false"
 Saltar="goto"|"jump"|"jmp"|"jnz"
 Objetos="namespace"|"new"|"clone"|"use"
@@ -112,21 +113,115 @@ Espacio = " "
  
 // Cada regla está formada por una {expresión} espacio {código}
  
-{Metodos} {
- Token t = new Token(yytext(), "Metodos");
+{ParentIzq} {
+ Token t = new Token("", "Parentesis Izquierdo");
  this.TokenExist = true;
  return t;
 }
-{Metodos} {
- Token t = new Token(yytext(), "Metodos");
+
+{ParentDer} {
+ Token t = new Token("", "Parentesis Derecho");
  this.TokenExist = true;
  return t;
 }
-{Metodos} {
- Token t = new Token(yytext(), "Metodos");
+
+{CorchIzq} {
+ Token t = new Token("", "Corchete Izquierdo");
  this.TokenExist = true;
  return t;
 }
+
+{CorchDer} {
+ Token t = new Token("", "Corchete Derecho");
+ this.TokenExist = true;
+ return t;
+}
+
+{Caso} {
+ Token t = new Token("", "Caso");
+ this.TokenExist = true;
+ return t;
+}
+
+{Mientras} {
+ Token t = new Token("", "Mientras");
+ this.TokenExist = true;
+ return t;
+}
+
+{FinFuncion} {
+ Token t = new Token(yytext(), "Fin de funcion");
+ this.TokenExist = true;
+ return t;
+}
+
+{AccionesFuncion} {
+ Token t = new Token(yytext(), "AccionFuncion");
+ this.TokenExist = true;
+ return t;
+}
+
+
+{Metodos} {
+ Token t = new Token("", "Metodos");
+ this.TokenExist = true;
+ return t;
+}
+
+{Coma} {
+ Token t = new Token("", "Coma");
+ this.TokenExist = true;
+ return t;
+}
+
+{GradodeAcceso} {
+ Token t = new Token(yytext(), "GradodeAcceso");
+ this.TokenExist = true;
+ return t;
+}
+
+{CambiosClases} {
+ Token t = new Token(yytext(), "CambiosClases");
+ this.TokenExist = true;
+ return t;
+}
+
+{AccionesCiclo} {
+ Token t = new Token(yytext(), "AccionesCiclo");
+ this.TokenExist = true;
+ return t;
+}
+
+{AccionesMetodos} {
+ Token t = new Token(yytext(), "AccionesMetodos");
+ this.TokenExist = true;
+ return t;
+}
+
+{ModificarHilo} {
+ Token t = new Token(yytext(), "ModificarHilo");
+ this.TokenExist = true;
+ return t;
+}
+
+{PilaSalida} {
+ Token t = new Token("", "PilaSalida");
+ this.TokenExist = true;
+ return t;
+}
+
+{PilaEntrada} {
+ Token t = new Token("", "PilaEntrada");
+ this.TokenExist = true;
+ return t;
+}
+
+{FinalSeleccion} {
+ Token t = new Token("", "FinalSeleccion");
+ this.TokenExist = true;
+ return t;
+}
+
 
 {TipodeDato} {
  Token t = new Token(yytext(), "TipodeDato");
