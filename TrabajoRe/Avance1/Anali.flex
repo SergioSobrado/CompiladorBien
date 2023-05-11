@@ -61,8 +61,8 @@ Alineamiento="alignas"|"alignof"
 OperadorMatema="add"|"adc"|"dec"|"div"|"mul"|"sub"|"+"|"-"|"*"|"/"|"**"|"%"
 Agrupacion="Range"|"Group"|"readonly"|"list"|"Enumerator"
 Eliminacion="undef"
-Convertidor="to_i"|"to_s"|"to_json"|"to_f"|"to_r"|"to_h"|"to_a"|"to_sym"|"to_proc"|"to_yaml"|"to_c"|"!!"
-Sincronizacion="async"|"await"|"synchronized"|
+Convertidor="to_i"|"to_s"|"to_json"|"to_f"|"to_r"|"to_h"|"to_a"|"to_sym"|"to_proc"|"to_yaml"|"to_c"|"!!"|"ToByte"|"ToInt32"|"ToSByte"|"ToChar"|"ToDateTime"|"ToUInt16"|"ToInt64"
+Sincronizacion="async"|"await"|"synchronized"
 Valor="default"|"true"|"false"|"nil"|"null"|"nullptr"|"checked"
 Sobrescribir="override"
 Restriccion="strict"|"strictfp"
@@ -78,14 +78,15 @@ Evaluador="defined"|"isset"|"constveal"|"constexpr"|"constinit"|"static_assert"|
 Cambiardato="const_cast"|"reinterpret_cast"|"mutable"|"union"|"volatile"|"dynamic_cast"|"as" 
 
 Saltar="goto"|"jump"|"jmp"|"jnz"
-Objetos="namespace"|"new"|"clone"|"use"|"Regexp"|"get"|"set"
+Objetos="namespace"|"new"|"clone"|"use"|"Regexp"
+ObtenerValorClase="get"
+DarValorClase="set"
 Excepciones="nullpointerexception"|"arrayindexoutofboundsexception"|"arithmeticexception"|"ioexception"|"filenotfoundexception"|"classcastexception"|"illegalstateexception"|"illegalargumentexception"|"securityexception"|"outofmemoryerror"|"stackoverflowerror"|"concurrentmodificationexception"|"socketexception"|"unsupportedoperationexception"|"parseexception"|"numberformatexception"|"nosuchmethodexception"|"nosuchfieldexception"|"interruptedexception"|"assertionerror"|"classnotfoundexception"|"instantiationexception"|"illegalaccessexception"|"noexcept"|"rescue"
 Estructura="struct"|"array"
 Plantilla="template"
 Hilo="thread_local"|"thread"|"Fiber"|"Queue"
 Importar="using"|"include"|"require"|"require_once"|"include_once"|"import"
 Interfaz="implements"|"interface" 
-PilaEntrada="push" 
 Imprimir="echo"|"print"|"puts"
 EjecutaCodigo="finally"
 Modulo="module"
@@ -106,9 +107,11 @@ Asignacion="="|"move"
 Comparador="<"|">"|"=="|"cmp"|">="|"<="|"match"
 Variables = [a-z,A-Z]{1}[a-zA-Z0-9\\-]*
 Numero = [0-9]+
-Comentar= "//"|"/* */"
-EscrituraIni = "'"
-EscrituraFin = "'"
+Comentar= "//"
+ComentarAbrir ="/*"
+ComentarCerrar="*/"
+EscrituraIni = "'-"
+EscrituraFin = "-'"
 SaltoDeLinea = \n|\r|\r\n
 Espacio = " "
  
@@ -124,6 +127,42 @@ Espacio = " "
  
 {ParentIzq} {
  Token t = new Token("", "Parentesis Izquierdo");
+ this.TokenExist = true;
+ return t;
+}
+
+{EscrituraIni} {
+ Token t = new Token("", "Escritura inicia");
+ this.TokenExist = true;
+ return t;
+}
+
+{EscrituraFin} {
+ Token t = new Token("", "Escritura final");
+ this.TokenExist = true;
+ return t;
+}
+
+{ComentarAbrir} {
+ Token t = new Token("", "Abrir comentario");
+ this.TokenExist = true;
+ return t;
+}
+
+{ComentarCerrar} {
+ Token t = new Token("", "Cerrar comentario");
+ this.TokenExist = true;
+ return t;
+}
+
+{ObtenerValorClase} {
+ Token t = new Token("", "Obtener Valor");
+ this.TokenExist = true;
+ return t;
+}
+
+{DarValorClase} {
+ Token t = new Token("", "Dar Valor");
  this.TokenExist = true;
  return t;
 }
@@ -375,12 +414,6 @@ Espacio = " "
  return t;
 }
 
-{Atomico} {
- Token t = new Token(yytext(), "Atomico");
- this.TokenExist = true;
- return t;
-}
-
 {Concepto} {
  Token t = new Token(yytext(), "Concepto");
  this.TokenExist = true;
@@ -417,12 +450,6 @@ Espacio = " "
  return t;
 }
 
-{Valor} {
- Token t = new Token(yytext(), "Valor");
- this.TokenExist = true;
- return t;
-}
-
 {Estructura} {
  Token t = new Token(yytext(), "Estructura");
  this.TokenExist = true;
@@ -453,11 +480,6 @@ Espacio = " "
  return t;
 }
 
-{Pila} {
- Token t = new Token(yytext(), "Pila");
- this.TokenExist = true;
- return t;
-}
 
 {Imprimir} {
  Token t = new Token(yytext(), "Imprimir");
@@ -496,13 +518,6 @@ Espacio = " "
  return t;
 }
 
-
-
-{Privado} {
- Token t = new Token(yytext(), "Privado");
- this.TokenExist = true;
- return t;
-}
 
 {Subclase} {
  Token t = new Token(yytext(), "Subclase");
